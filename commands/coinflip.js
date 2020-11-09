@@ -7,17 +7,11 @@ module.exports = {
 }
 
 const coinFlipCommand = (message, args) => {
-    
     if (hasNoArguments(args)) {
         headsOrTails(message);
     } else {
         headsOrTailsMultiple(message, args);
-    }
-    
-}
-
-const getRandomInt = max => {
-    return Math.floor(Math.random() * Math.floor(max));
+    }  
 }
 
 const hasNoArguments = args => {
@@ -34,12 +28,27 @@ const headsOrTails = (message) => {
     }
 }
 
+const getRandomInt = max => {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 const headsOrTailsMultiple = (message, args) => {
-    if (isNaN(args[0])) {
+    if (args[0] === "help") {
+        displayHelpMessage(message);
+        return;
+    } else if (isNaN(args[0])) {
         message.reply("Please enter a number to specify how many coinflips");
         return;
     }
     tallyHeadsAndTails(message, args);
+}
+
+const displayHelpMessage = message => {
+    let helpMessage = "";
+    helpMessage += "\nThe !coinflip command flips 1 or multiple coins and returns the resulting number of heads and tails\n";
+    helpMessage += "Flipping one coin -- ex) !coinflip\n";
+    helpMessage += "Flipping multiple coins -- ex) !coinflip [number of coins to flip]";
+    message.reply(helpMessage);
 }
 
 const tallyHeadsAndTails = (message, args) => {
